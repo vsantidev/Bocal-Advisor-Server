@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -45,5 +46,14 @@ class AuthController extends Controller
                 'token' => $user->createToken('register_token')->plainTextToken
             ]);
         }
+    }
+
+    public function login(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return ['error' => 'Email ou mot de passe incorrect'];
+        }
+        return $user;
     }
 }
