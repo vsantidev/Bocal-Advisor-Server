@@ -13,6 +13,16 @@ class PlaceController extends Controller
      * Display a listing of the resource.
      */
 
+    function renderPlace()
+    {
+        $place = Place::all()->sortBy('name');
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Endroit créé avec succès',
+            $place
+        ]);
+    }
+
     public function place(Request $request)
     {
         $validator = Validator::make($request->all(), [

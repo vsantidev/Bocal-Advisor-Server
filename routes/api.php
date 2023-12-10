@@ -13,7 +13,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Places
-// Route::get('/post', [PlaceController::class, 'index']);
+Route::get('/post', [PlaceController::class, 'renderPlace']);
 // Route::post('/post', [PlaceController::class, 'create']);
 // Route::post('/post/{id}', [PlaceController::class, 'show']);
 // Route::post('/post', [PlaceController::class, 'store']);
