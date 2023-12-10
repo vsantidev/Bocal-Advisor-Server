@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Place;
+use App\Models\Picture;
 use Illuminate\Http\Request;
 
 class PlaceController extends Controller
@@ -14,6 +15,7 @@ class PlaceController extends Controller
     public function index()
     {
         $place = Place::getAll();
+        $picture = Picture::getPicture();
         return response()->json([
             'status' => 'true',
             'message' => 'Endroit connu'
@@ -44,7 +46,6 @@ class PlaceController extends Controller
             'postcode' => 'required',
             'city' => 'required',
             'description' => 'required',
-            'picture_id' => 'required'
         ]);
 
         Place::create([
@@ -53,8 +54,7 @@ class PlaceController extends Controller
             'street' => $request->street,
             'postcode' => $request->postcode,
             'city' => $request->city,
-            'description' => $request->description ,
-            'picture_id' => $request->picture
+            'description' => $request->description 
         ]);
 
         return response()->json([

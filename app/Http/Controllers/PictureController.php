@@ -28,7 +28,18 @@ class PictureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name_picture' => 'required'
+        ]);
+
+        Picture::create([
+            'name_picture' => $request->picture
+        ]);
+
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Endroit connu'
+        ]);
     }
 
     /**

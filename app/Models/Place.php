@@ -20,6 +20,13 @@ class Place extends Model
             ->get();
     }
 
+    public static function getPicture(){
+        return Place::select('places.*', 'pictures.name_picture as picture')
+        ->join('pictures', 'places.picture_id', '=', 'pictures.id')
+        ->orderBy('name_picture')
+        ->get();
+    }
+
     public function Category():HasOne
     {
         return $this->HasOne(Category::class);
