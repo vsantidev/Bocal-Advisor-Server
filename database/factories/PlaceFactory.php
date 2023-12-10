@@ -17,7 +17,16 @@ class PlaceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->company(),
+            'street' => fake()->name(),
+            'postcode' => fake()->numberBetween(06000, 91000),
+            'city' => fake()->city(),
+            'description' => fake()->text(),
+            'x' => fake()->longitude(),
+            'y' => fake()->latitude(),
+            'user_id' => fake()->numberBetween(1, 10),
+            'category_id' => fake()->numberBetween(1, 5),
+            'file' => fake()->name()
         ];
     }
 }

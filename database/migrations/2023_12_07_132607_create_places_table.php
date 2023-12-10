@@ -2,7 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Picture;
-// use App\Models\Review;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,12 +22,12 @@ return new class extends Migration
             $table->integer('postcode');
             $table->string('city');
             $table->string('description');
-            $table->float('x');
-            $table->float('y');
-            $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Category::class)->constrained();
-            // $table->foreignIdFor(Review::class)->constrained();
-            $table->foreignIdFor(Picture::class)->constrained();
+            $table->float('x')->nullable();
+            $table->float('y')->nullable();
+            $table->foreignIdFor(User::class)->constrained()->nullable();
+            $table->foreignIdFor(Category::class)->constrained()->nullable();
+            $table->foreignIdFor(Review::class)->constrained();
+            $table->string('file');
             $table->timestamps();
         });
     }
