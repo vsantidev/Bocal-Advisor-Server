@@ -15,16 +15,19 @@ class PlaceController extends Controller
 
     function renderPlace()
     {
+
+        // Récupère tous les endroits enregistrés dans la bdd et les renvoie en format json
         $place = Place::all()->sortBy('name');
         return response()->json([
             'status' => 'true',
-            'message' => 'Endroit créé avec succès',
+            'message' => 'Voici vos lieux',
             $place
         ]);
     }
 
     public function place(Request $request)
     {
+        // Vérifie que tous les champs requis sont bien renseignés
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'category' => 'required|exists:categories,id',
@@ -35,6 +38,7 @@ class PlaceController extends Controller
             'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Enregistre l'image dans public/storage/images en local sur vscode
         $fileName = time() . '.' . $request->file->extension();
         $request->file->storeAs('public/images', $fileName);
 
@@ -44,6 +48,8 @@ class PlaceController extends Controller
                 'data' => $validator->errors()
             ]);
         } else {
+
+            // Créé le lieu dans la bdd et le renvoie en format json 
             $place = Place::create([
                 'title' => $request->title,
                 'category_id' => $request->category,
@@ -56,7 +62,7 @@ class PlaceController extends Controller
 
             return response()->json([
                 'status' => 'true',
-                'message' => 'Endroit créé avec succès',
+                'message' => 'Lieu créé avec succès',
                 $place
             ]);
         }
