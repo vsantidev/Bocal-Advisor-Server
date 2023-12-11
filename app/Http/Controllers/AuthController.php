@@ -12,7 +12,7 @@ class AuthController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function register(Request $request)
+    public function register(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
@@ -21,7 +21,7 @@ class AuthController extends Controller
             'password' => 'required',
             'username' => 'required',
             'birthday' => 'required',
-            'role' => 'required'
+            'role' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -37,13 +37,17 @@ class AuthController extends Controller
                 'password' => $request->password,
                 'username' => $request->username,
                 'birthday' => $request->birthday,
-                'role' => $request->role
+                'role' => $request->role,
+
             ]);
+
+            $token = $user->createToken('remember_token')->plainTextToken;
 
             return response()->json([
                 'status' => 'true',
                 'message' => 'Utilisateur inscrit avec succès',
-                'token' => $user->createToken('register_token')->plainTextToken
+                'user' => $user,
+                'token' => $token,
             ]);
         }
     }
