@@ -26,7 +26,6 @@ return new class extends Migration
             $table->float('y')->nullable();
             $table->foreignIdFor(User::class)->constrained()->nullable();
             $table->foreignIdFor(Category::class)->constrained()->nullable();
-            $table->foreignIdFor(Review::class)->constrained();
             $table->string('file');
             $table->timestamps();
         });
