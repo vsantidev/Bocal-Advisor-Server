@@ -23,3 +23,6 @@ Route::get('/post', [PlaceController::class, 'renderPlace']);
 
 // Route::resource('/post', PlaceController::class);
 Route::post('/post', [PlaceController::class, 'place']);
+
+// ======> AVIS / COMMENTAIRE / REVIEW
+Route::post('/review', [AuthController::class, 'review']);
