@@ -17,11 +17,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        Place::factory()->count(10)->create();
-        User::factory()->count(10)->create();
-
         $this->call([
             CategorySeeder::class
         ]);
+        User::factory()->count(10)->create();
+        Place::factory()->count(10)->create();
     }
 }
