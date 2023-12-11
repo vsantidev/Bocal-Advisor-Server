@@ -13,7 +13,7 @@ class PlaceController extends Controller
      * Display a listing of the resource.
      */
 
-    function renderPlace()
+    public function renderPlace()
     {
 
         // Récupère tous les endroits enregistrés dans la bdd et les renvoie en format json
