@@ -23,7 +23,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/post', [PlaceController::class, 'update']);
 // Route::delete('/post', [PlaceController::class, 'destroy']);
 
-Route::post('/post', [PlaceController::class, 'place']);
+Route::post('/place', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 // ======> AVIS / COMMENTAIRE / REVIEW
 Route::post('/review', [ReviewController::class, 'review']);
