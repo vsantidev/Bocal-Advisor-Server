@@ -66,5 +66,9 @@ class PlaceController extends Controller
                 $place
             ]);
         }
+
+        if (!$request->file('file')->isValid()) {
+            return response()->json(['status' => 'false', 'message' => 'File upload failed']);
+        }
     }
 }
