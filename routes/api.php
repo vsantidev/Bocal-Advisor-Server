@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('dashboard', [AuthController::class, 'dashboard'])
+    ->middleware('auth:sanctum');
+
 // Places
 // Route::get('/post', [PlaceController::class, 'index']);
 // Route::post('/post', [PlaceController::class, 'create']);
@@ -23,7 +26,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/post', [PlaceController::class, 'update']);
 // Route::delete('/post', [PlaceController::class, 'destroy']);
 
-Route::post('/post', [PlaceController::class, 'place']);
+Route::post('/place', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 // ======> AVIS / COMMENTAIRE / REVIEW
 Route::post('/review', [ReviewController::class, 'review']);

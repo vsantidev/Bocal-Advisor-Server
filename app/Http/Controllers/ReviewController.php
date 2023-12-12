@@ -15,9 +15,18 @@ class ReviewController extends Controller
         // CRÉATION DU COMMENTAIRE POUR ENVOYER DANS LA BDD
         $request -> validate([
             "comment" => "required|string",
-            "rate" => "required|integer"
+            "rate" => "required|integer",
+            // 'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
         /* dd($request); */
+
+        
+        // Enregistre l'image dans public/storage/images en local sur vscode
+        // $fileName = time() . '.' . $request->file->extension();
+        // $request->file->storeAs('public/images', $fileName);
+
+
         // ------> Mise en attente pour la connexion avec le token de l'user <-----
         // $user_id = Auth::id();
 
