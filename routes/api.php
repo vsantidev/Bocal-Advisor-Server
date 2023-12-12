@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('dashboard', [AuthController::class, 'dashboard'])
+    ->middleware('auth:sanctum');
+
 // Places
 // Route::get('/post', [PlaceController::class, 'index']);
 // Route::post('/post', [PlaceController::class, 'create']);
