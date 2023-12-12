@@ -11,12 +11,13 @@ class ReviewController extends Controller
 {
     public function review(Request $request)
     {
+        // CRÉATION DU COMMENTAIRE POUR ENVOYER DANS LA BDD
         $request -> validate([
             "comment" => "required|string",
             "rate" => "required|integer"
         ]);
         
-        // CRÉATION DU COMMENTAIRE DANS LA BD ET RENVOIE JSON POUR FRONT
+        // ------> Mise en attente pour la connexion avec le token de l'user <-----
         // $user_id = Auth::id();
         $newReview = [
             'comment' => $request->comment,
@@ -29,6 +30,17 @@ class ReviewController extends Controller
 
         return response()->json([
             $newReview
+        ]);
+    }
+
+    public function renderReview()
+    {
+        // RÉCUPÉRATION DE LA BDD AFIN DE LES RENVOYER EN FORMAT JSON POUR LES AFFICHER
+        $reviews = Review::all();
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Voici vos commentaires',
+            $reviews
         ]);
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ReviewController;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,4 @@ Route::post('/post', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 // ======> AVIS / COMMENTAIRE / REVIEW
 Route::post('/review', [ReviewController::class, 'review']);
+Route::get('/review', [ReviewController::class, 'renderReview']);
