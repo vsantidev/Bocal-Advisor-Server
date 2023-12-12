@@ -60,10 +60,9 @@ class AuthController extends Controller
             return response()->json([
                 'token' => $user->createToken(time())->plainTextToken
             ]);
-        }else{
+        } else {
             return ['error' => 'Email ou mot de passe incorrect'];
         }
-        return $user;
     }
 
     public function dashboard(): JsonResponse
@@ -72,6 +71,4 @@ class AuthController extends Controller
             'success' => 'Bienvenue!'
         ]);
     }
-
-    
 }

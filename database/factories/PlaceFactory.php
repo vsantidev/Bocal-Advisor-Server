@@ -25,7 +25,7 @@ class PlaceFactory extends Factory
             'x' => fake()->longitude(),
             'y' => fake()->latitude(),
             'user_id' => fake()->numberBetween(1, 10),
-            /* 'category_id' => fake()->numberBetween(1, 5), */
+            'category_id' => fake()->numberBetween(1, 5),
             'file' => fake()->name()
         ];
     }

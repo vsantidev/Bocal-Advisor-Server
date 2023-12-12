@@ -11,9 +11,9 @@ class Place extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', 'user_id', 'file'];
+    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', 'category_id', 'file'];
 
-/*     public static function getAll()
+    /*     public static function getAll()
     {
         return Place::select('places.*', 'categories.name_category as category')
             ->join('categories', 'places.category_id', '=', 'categories.id')
@@ -32,7 +32,8 @@ class Place extends Model
         return $category->name_category;
     }
 
-    public function categories(){
+    public function categories()
+    {
         return $this->belongsTo(Category::class);
     }
 }
