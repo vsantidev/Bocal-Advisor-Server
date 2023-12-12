@@ -12,8 +12,12 @@ class Category extends Model
 
     protected $fillable = ['name_category'];
 
-    public function place():HasMany
+/*     public function place():HasMany
     {
         return $this->HasMany(Place::class);
+    } */
+    public function places() {
+        return $this->hasMany(Place::class);
     }
+
 }

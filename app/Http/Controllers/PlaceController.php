@@ -15,7 +15,11 @@ class PlaceController extends Controller
 
     public function renderPlace()
     {
-
+        $tests = Place::all();
+        foreach($tests as $test){
+            $category = $test->categories->name_category;
+            dd($test);
+        }
         // Récupère tous les endroits enregistrés dans la bdd et les renvoie en format json
         $place = Place::all()->sortBy('name');
         return response()->json([
@@ -27,6 +31,7 @@ class PlaceController extends Controller
 
     public function place(Request $request)
     {
+        
         // Vérifie que tous les champs requis sont bien renseignés
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -35,13 +40,13 @@ class PlaceController extends Controller
             'postcode' => 'required',
             'city' => 'required',
             'description' => 'required',
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+           /*  'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', */
         ]);
-
+       
         // Enregistre l'image dans public/storage/images en local sur vscode
-        $fileName = time() . '.' . $request->file->extension();
-        $request->file->storeAs('public/images', $fileName);
-
+/*         $fileName = time() . '.' . $request->file->extension();
+        $request->file->storeAs('public/images', $fileName); */
+        /* dd($request); */
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
@@ -49,15 +54,17 @@ class PlaceController extends Controller
             ]);
         } else {
 
+            $user_id = 2;
             // Créé le lieu dans la bdd et le renvoie en format json 
             $place = Place::create([
                 'title' => $request->title,
-                'category_id' => $request->category,
+                /* 'category_id' => $request->category, */
                 'street' => $request->street,
                 'postcode' => $request->postcode,
                 'city' => $request->city,
                 'description' => $request->description,
-                'file' => $fileName
+                'file' => $request->fileName,
+                'user_id' => $user_id
             ]);
 
             return response()->json([

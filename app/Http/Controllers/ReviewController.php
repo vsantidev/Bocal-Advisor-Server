@@ -11,24 +11,32 @@ class ReviewController extends Controller
 {
     public function review(Request $request)
     {
+        
         // CRÉATION DU COMMENTAIRE POUR ENVOYER DANS LA BDD
         $request -> validate([
             "comment" => "required|string",
             "rate" => "required|integer",
             // 'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        /* dd($request); */
+
         
         // Enregistre l'image dans public/storage/images en local sur vscode
         // $fileName = time() . '.' . $request->file->extension();
         // $request->file->storeAs('public/images', $fileName);
 
+
         // ------> Mise en attente pour la connexion avec le token de l'user <-----
         // $user_id = Auth::id();
+
+        $user_id =2;
+        $place_id =2;
         $newReview = [
             'comment' => $request->comment,
             'rate' => $request->rate,
-            // 'user_id' => $user_id,
-            // 'place_id' => $request->place_id
+            'user_id' => $user_id,
+            'place_id' => $place_id
         ];
        
         Review::create($newReview);

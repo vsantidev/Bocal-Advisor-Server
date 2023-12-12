@@ -31,4 +31,8 @@ class Place extends Model
         $category = Category::find($this->category_id);
         return $category->name_category;
     }
+
+    public function categories(){
+        return $this->belongsTo(Category::class);
+    }
 }
