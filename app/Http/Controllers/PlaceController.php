@@ -15,11 +15,11 @@ class PlaceController extends Controller
 
     public function renderPlace()
     {
-        $tests = Place::all();
-        foreach ($tests as $test) {
-            $category = $test->categories->name_category;
-            dd($test);
-        }
+        // $tests = Place::all();
+        // foreach ($tests as $test) {
+        //     $category = $test->categories->name_category;
+        //     dd($test);
+        // }
         // Récupère tous les endroits enregistrés dans la bdd et les renvoie en format json
         $place = Place::all()->sortBy('name');
         return response()->json([
