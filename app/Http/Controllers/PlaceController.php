@@ -21,6 +21,7 @@ class PlaceController extends Controller
         $truc = array();
         
         $places = DB::table('places')
+            ->select('places.*', "selected_categories.*" , "categories.id as id_categories","categories.name_category as name_category")
             ->leftJoin('selected_categories' , 'places.id', 'selected_categories.place_id')
             ->leftJoin('categories' , 'selected_categories.category_id', 'categories.id')
             ->get();
