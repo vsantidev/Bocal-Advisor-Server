@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Selected_category;
 use App\Models\Place;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Support\Facades\DB;
 
 class PlaceController extends Controller
 {
@@ -15,28 +18,17 @@ class PlaceController extends Controller
 
     public function renderPlace()
     {
-
-        $tests = Place::all();
-/*         foreach ($tests as $test) {
-            $category = $test->categories->name_category;
-            dd($test);
-        } */
-
-        // $tests = Place::all();
-        // foreach ($tests as $test) {
-        //     $category = $test->categories->name_category;
-        //     dd($test);
-        // }
-
-        // Récupère tous les endroits enregistrés dans la bdd et les renvoie en format json
+        $truc = array();
         
-        
-        $place = Place::all()->sortBy('name');
-        
+        $places = DB::table('places')
+            ->leftJoin('selected_categories' , 'places.id', 'selected_categories.place_id')
+            ->leftJoin('categories' , 'selected_categories.category_id', 'categories.id')
+            ->get();
+            
         return response()->json([
             'status' => 'true',
             'message' => 'Voici vos lieux',
-            $place
+            $places
         ]);
     }
 
