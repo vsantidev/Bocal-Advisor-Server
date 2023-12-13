@@ -28,6 +28,7 @@ Route::get('dashboard', [AuthController::class, 'dashboard'])
 
 Route::post('/place', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
+Route::get('/show/{id}', [PlaceController::class, 'show']);
 // ======> AVIS / COMMENTAIRE / REVIEW
 Route::post('/review', [ReviewController::class, 'review']);
 Route::get('/review', [ReviewController::class, 'renderReview']);
