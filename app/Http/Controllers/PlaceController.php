@@ -89,6 +89,8 @@ class PlaceController extends Controller
         // $place['category_id'] = $place->getCategory();
         $place = Place::find($id);
 
+        $place->file = asset('storage/images/' . $place->file);
+
 
         // $note = Note::where('book_id', $book->id)->avg('note');
 
