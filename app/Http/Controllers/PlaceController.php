@@ -25,6 +25,9 @@ class PlaceController extends Controller
             ->leftJoin('selected_categories', 'places.id', 'selected_categories.place_id')
             ->leftJoin('categories', 'selected_categories.category_id', 'categories.id')
             ->get();
+        foreach ($places as $place) {
+            $place->file = asset('storage/images/' . $place->file);
+        }
 
         return response()->json([
             'status' => 'true',
