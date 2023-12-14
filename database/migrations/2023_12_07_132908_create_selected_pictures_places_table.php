@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('selected_pictures_places', function (Blueprint $table) {
-            $table->foreignIdFor(Place::class)->constrained();
-            $table->foreignIdFor(Picture::class)->constrained();
+            $table->foreignIdFor(Place::class);
+            $table->foreignIdFor(Picture::class);
             $table->primary(['place_id','picture_id']);
         });
     }

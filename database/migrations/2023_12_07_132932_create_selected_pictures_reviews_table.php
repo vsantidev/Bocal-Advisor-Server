@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('selected_pictures_reviews', function (Blueprint $table) {
-            $table->foreignIdFor(Review::class)->constrained();
-            $table->foreignIdFor(Picture_review::class)->constrained();
+            $table->foreignIdFor(Review::class);
+            $table->foreignIdFor(Picture_review::class);
             $table->primary(['review_id','picture_review_id']);
         });
     }
