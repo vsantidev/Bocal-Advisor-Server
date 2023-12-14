@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Place;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -22,5 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory()->count(10)->create();
         Place::factory()->count(10)->create();
+
+        Review::factory()->count(20)->create();
     }
 }
