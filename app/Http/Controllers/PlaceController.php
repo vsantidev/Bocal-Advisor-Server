@@ -18,7 +18,6 @@ class PlaceController extends Controller
 
     public function renderPlace()
     {
-        $truc = array();
 
         $places = DB::table('places')
             ->select('places.*', "selected_categories.*", "categories.id as id_categories", "categories.name_category as name_category")
