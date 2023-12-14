@@ -56,19 +56,39 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        if (Hash::check($request->password, $user->password)) {
+
+        if ($user && Hash::check($request->password, $user->password)) {
+            // Utilisation de Sanctum pour créer un jeton d'accès
+            $token = $user->createToken(time())->plainTextToken;
+
             return response()->json([
-                'token' => $user->createToken(time())->plainTextToken
+                'token' => $token,
+                'user' => $user, // Correction ici pour inclure les informations de l'utilisateur dans la réponse
             ]);
         } else {
-            return ['error' => 'Email ou mot de passe incorrect'];
+            return response()->json(['error' => 'Email ou mot de passe incorrect'], 401);
         }
     }
 
-    public function dashboard(): JsonResponse
+    public function dashboard(Request $request): JsonResponse
     {
-        return response()->json([
-            'success' => 'Bienvenue!'
-        ]);
+
+        $user = $request->user();
+
+
+        $userData = [
+            'id' => $user->id,
+            'firstname' => $user->firstname,
+            'lastname' => $user->lastname,
+            'pseudo' => $user->username,
+            'email' => $user->email,
+            'birthday' => $user->birthday,
+            'password' => $user->password,
+            'role' => $user->role
+
+        ];
+
+        return response()->json(['success' => $userData]);
     }
+
 }
