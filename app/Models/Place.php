@@ -21,15 +21,46 @@ class Place extends Model
             ->get();
     }
  */
-    public function Category(): HasMany
+    // public function Category(): HasOne
+    // {
+    //     return $this->HasOne(Category::class);
+    // }
+
+    // public function getCategory()
+    // {
+    //     $category = Category::find($this->category_id);
+    //     return $category->name_category;
+    // }
+
+    // public function categories()
+    // {
+    //     return $this->belongsTo(Category::class);
+    // }
+
+
+    // RELATION AVEC LA TABLE CATEGORIE
+    public function categories() : HasMany
     {
-        return $this->HasMany(Category::class);
+        return $this->hasMany(Category::class);
     }
 
-    public function getCategory()
+    // RELATION AVEC LA TABLE REVIEW
+    public function reviews() : HasMany
     {
-        $category = Category::find($this->category_id);
-        return $category->name_category;
+        return $this->hasMany(Review::class);
     }
 
+    
+    // RELATION AVEC LA TABLE PICTURE
+    public function pictures() : HasMany
+    {
+        return $this->hasMany(Picture::class);
+    }
+
+    // RELATION AVEC LA TABLE USERS
+    public function users() : HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+        
 }
