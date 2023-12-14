@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Picture;
 use App\Models\Place;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -14,9 +15,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
-            $table->string('comment');
+            $table->increments('id');
+            $table->mediumText('comment');
             $table->integer('rate');
+            $table->foreignIdFor(Picture::class);
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Place::class)->constrained();
             $table->timestamps();
