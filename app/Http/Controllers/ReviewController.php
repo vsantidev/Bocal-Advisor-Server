@@ -14,7 +14,7 @@ class ReviewController extends Controller
     public function review(Request $request)
     {
         // CRÉATION DU COMMENTAIRE POUR ENVOYER DANS LA BDD
-        $request -> validate([
+        $request->validate([
             "comment" => "required|string",
             "rate" => "required|integer",
             "place_id" => "required|integer",
@@ -35,13 +35,14 @@ class ReviewController extends Controller
             'comment' => $request->comment,
             'rate' => $request->rate,
             'picture_id' => 4,
-            'user_id' => $request ->user_id,
+            'user_id' => $request->user_id,
             'place_id' => $request->place_id,
         ];
-       
+
         Review::create($newReview);
 
         return response()->json([
+            'message' => 'Commentaire créé avec succès',
             $newReview
         ]);
     }

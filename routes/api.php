@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 /*Routes de la gestion des incriptions et commentaires*/
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -68,5 +69,4 @@ Route::post('/show/{id}', [ReviewController::class, 'review']);
 Route::post('/send-reset-email', [ResetPasswordController::class, 'sendResetEmail'])->name('password.reset');
 
 // changement mot de passe
-Route::post('/passwordChange', [PasswordChangeController::class, 'changePassword']);
-
+// Route::post('/passwordChange', [PasswordChangeController::class, 'changePassword']);
