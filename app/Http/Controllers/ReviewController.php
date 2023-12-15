@@ -29,13 +29,13 @@ class ReviewController extends Controller
         // $user_id = Auth::id();
 
         // $place_id = DB::table('Reviews')->where('reviews.place_id', $id)->get();
-        $user_id =2;
-
+        // $user_id =2;
+        // dd($request);
         $newReview = [
             'comment' => $request->comment,
             'rate' => $request->rate,
             'picture_id' => 4,
-            'user_id' => $user_id,
+            'user_id' => $request ->user_id,
             'place_id' => $request->place_id,
         ];
        
