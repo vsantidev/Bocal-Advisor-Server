@@ -16,8 +16,8 @@ class Category extends Model
     {
         return $this->HasMany(Place::class);
     } */
-    public function places() {
+    public function places(): HasMany
+    {
         return $this->hasMany(Place::class);
     }
-
 }

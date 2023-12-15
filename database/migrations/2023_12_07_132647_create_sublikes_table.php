@@ -14,10 +14,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sublikes', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('name_react');
             $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Review::class)->constrained();
+            $table->foreignIdFor(Review::class);
             $table->timestamps();
         });
     }
