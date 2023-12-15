@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::post('/place', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 Route::get('/show/{id}', [PlaceController::class, 'show']);
+Route::put('/edit/{id}', [PlaceController::class, 'edit']);
 
 /*Routes de la gestion des commentaires*/
 Route::get('/review', [ReviewController::class, 'renderReview']);
