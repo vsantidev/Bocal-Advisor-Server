@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Selected_category;
 use App\Models\Place;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -85,14 +86,19 @@ class PlaceController extends Controller
     {
         // $place['category_id'] = $place->getCategory();
         $place = Place::find($id);
-
-
-        // $note = Note::where('book_id', $book->id)->avg('note');
+        // $review = Review::select(['place_id'])->find(1);
+        // $reviews = Review::with('place_id')->get();
+        $review = DB::table('Reviews')->where('reviews.place_id', $id)->get();
+        // $place->reviews()->where('reviews.place_id', $id)->get();
+ 
 
         return response()->json([
             'status' => 'true',
             'message' => 'Voici votre lieu',
-            $place
+            'place' => $place,
+            'review' => $review
         ]);
     }
+
+
 }

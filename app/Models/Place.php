@@ -49,6 +49,7 @@ class Place extends Model
     {
         return $this->hasMany(Review::class);
     }
+    
 
     
     // RELATION AVEC LA TABLE PICTURE
