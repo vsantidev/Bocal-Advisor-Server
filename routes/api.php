@@ -3,7 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ReviewController;
+
 use App\Models\Place;
+
+use App\Http\Controllers\ResetPasswordController;
+
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +54,7 @@ Route::get('/show/{id}', [PlaceController::class, 'show']);
 
 /*Routes de la gestion des commentaires*/
 Route::get('/review', [ReviewController::class, 'renderReview']);
+
 Route::post('/show/{id}', [ReviewController::class, 'review']);
 // Route::post('/review', [ReviewController::class, 'review']);
 // Route::get('/show/{id}', [PlaceController::class, 'review']);
@@ -58,3 +63,10 @@ Route::post('/show/{id}', [ReviewController::class, 'review']);
 //     // Route::get('/{id}', [PlaceController::class, 'show']);
 //     Route::get('/{id}', [ReviewController::class, 'review'])->name('review');
 // });
+
+// Reset Email
+Route::post('/send-reset-email', [ResetPasswordController::class, 'sendResetEmail'])->name('password.reset');
+
+// changement mot de passe
+Route::post('/passwordChange', [PasswordChangeController::class, 'changePassword']);
+

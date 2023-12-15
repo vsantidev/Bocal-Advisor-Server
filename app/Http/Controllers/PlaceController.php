@@ -19,13 +19,15 @@ class PlaceController extends Controller
 
     public function renderPlace()
     {
-        $truc = array();
 
         $places = DB::table('places')
             ->select('places.*', "selected_categories.*", "categories.id as id_categories", "categories.name_category as name_category")
             ->leftJoin('selected_categories', 'places.id', 'selected_categories.place_id')
             ->leftJoin('categories', 'selected_categories.category_id', 'categories.id')
             ->get();
+        foreach ($places as $place) {
+            $place->file = asset('storage/images/' . $place->file);
+        }
 
         return response()->json([
             'status' => 'true',
@@ -91,6 +93,11 @@ class PlaceController extends Controller
         $review = DB::table('Reviews')->where('reviews.place_id', $id)->get();
         // $place->reviews()->where('reviews.place_id', $id)->get();
  
+        $place->file = asset('storage/images/' . $place->file);
+
+
+        // $note = Note::where('book_id', $book->id)->avg('note');
+
 
         return response()->json([
             'status' => 'true',
