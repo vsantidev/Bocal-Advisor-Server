@@ -91,4 +91,39 @@ class AuthController extends Controller
         return response()->json(['success' => $userData]);
     }
 
+    public function updateUser(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'pseudo' => 'required',
+            'email' => 'required',
+            'birthday' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'false',
+                'data' => $validator->errors()
+            ]);
+        }
+
+        $user->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'pseudo' => $request->pseudo,
+            'email' => $request->email,
+            'birthday' => $request->birthday,
+            'password' => $request->password,
+        ]);
+
+        return response()->json([
+        'status' => 'true',
+        'message' => 'Profil utilisateur mis à jour avec succès',
+        'user' => $user,
+        ]);
+    }
 }
