@@ -18,7 +18,7 @@ return new class extends Migration
             $table->increments('id');
             $table->mediumText('comment');
             $table->integer('rate');
-            $table->foreignIdFor(Picture::class);
+            $table->string('file_Review');
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Place::class)->constrained();
             $table->timestamps();

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\Int_;
 
+use function Laravel\Prompts\error;
+
 class ReviewController extends Controller
 {
     public function review(Request $request)
@@ -34,7 +36,6 @@ class ReviewController extends Controller
         $newReview = [
             'comment' => $request->comment,
             'rate' => $request->rate,
-            'picture_id' => 4,
             'user_id' => $request->user_id,
             'place_id' => $request->place_id,
         ];
@@ -44,6 +45,25 @@ class ReviewController extends Controller
         return response()->json([
             'message' => 'Commentaire créé avec succès',
             $newReview
+        ]);
+    }
+
+    public function deleteReview(Request $request)
+    {
+   
+        $request->validate([
+            "id" => "required|integer",
+            // 'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $myreview = Review::findOrFail($request->id);
+        $myreview->delete();
+        //Review::destroy($myreview);
+               
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Review supprimé',
+            'review' => $request->id
         ]);
     }
 

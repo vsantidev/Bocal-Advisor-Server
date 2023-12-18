@@ -19,7 +19,7 @@ class ReviewFactory extends Factory
         return [
             'comment' => fake()->text(),
             'rate' => fake()->numberBetween(0, 5),
-            'picture_id' =>fake()->numberBetween(1, 10),
+            'file_Review' => 'https://www.fishipedia.fr/wp-content/uploads/2017/12/Acanthicus-adonis-800-725x483.png',
             'user_id' => fake()->numberBetween(1, 10),
             'place_id' => fake()->numberBetween(1, 10),
         ];
