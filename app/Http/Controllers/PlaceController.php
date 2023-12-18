@@ -75,11 +75,16 @@ class PlaceController extends Controller
                 'file' => $fileName,
             ]);
 
+            $select = Selected_category::create([
+                'place_id' => $request->place_id,
+                'category_id' => $request->category_id
+            ]);
+
             // Renvoie le lieu en format JSON
             return response()->json([
                 'status' => 'true',
                 'message' => 'Lieu créé avec succès',
-                $place
+                $place, $select
             ]);
         }
 
