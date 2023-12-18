@@ -57,6 +57,8 @@ Route::get('/show/{id}', [PlaceController::class, 'show']);
 Route::get('/review', [ReviewController::class, 'renderReview']);
 
 Route::post('/show/{id}', [ReviewController::class, 'review']);
+Route::delete('/show/{id}', [ReviewController::class, 'deleteReview'])->name('review.destroy');
+//Route::post('/show/{id}', [ReviewController::class, 'review']);
 // Route::post('/review', [ReviewController::class, 'review']);
 // Route::get('/show/{id}', [PlaceController::class, 'review']);
 
