@@ -36,7 +36,7 @@ Route::post('/login', [AuthController::class, 'login']);
 /*Routes Protegés par le middleware*/
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', [AuthController::class, 'dashboard']);
-    Route::put('/dashboard', [AuthController::class, 'updateUser']);
+    Route::put('dashboard', [AuthController::class, 'updateUser']);
 });
 
 // Places

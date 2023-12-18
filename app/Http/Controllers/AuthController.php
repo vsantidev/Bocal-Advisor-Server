@@ -63,7 +63,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'token' => $token,
-                'user' => $user, // Correction ici pour inclure les informations de l'utilisateur dans la réponse
+                'user' => $user, 
             ]);
         } else {
             return response()->json(['error' => 'Email ou mot de passe incorrect'], 401);
@@ -96,12 +96,14 @@ class AuthController extends Controller
         $user = $request->user();
 
         $validator = Validator::make($request->all(), [
+            'id' => 'required',
             'firstname' => 'required',
             'lastname' => 'required',
             'pseudo' => 'required',
             'email' => 'required',
             'birthday' => 'required',
             'password' => 'required',
+            'role' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -112,12 +114,14 @@ class AuthController extends Controller
         }
 
         $user->update([
+            'id' => $user->id,
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'pseudo' => $request->pseudo,
             'email' => $request->email,
             'birthday' => $request->birthday,
             'password' => $request->password,
+            'role' => $request->role,
         ]);
 
         return response()->json([
