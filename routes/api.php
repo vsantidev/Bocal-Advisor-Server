@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-/*Routes de la gestion des incriptions et commentaires*/
+/*Routes inscription/connexion*/
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
