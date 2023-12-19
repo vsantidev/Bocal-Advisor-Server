@@ -135,13 +135,13 @@ class PlaceController extends Controller
     {
         // $place['category_id'] = $place->getCategory();
         $place = Place::find($id);
-        // $review = Review::select(['place_id'])->find(1);
-        // $reviews = Review::with('place_id')->get();
-        $review = DB::table('Reviews')->where('reviews.place_id', $id)->get();
+ 
+        $reviews = DB::table('Reviews')->where('reviews.place_id', $id)->get();
+        foreach ($reviews as $review) {
+        $review->file_review = asset('storage/images/' . $review->file_review);
+        }  
         // $place->reviews()->where('reviews.place_id', $id)->get();
-
-        $place->file = asset('storage/images/' . $place->file);
-
+       
 
         // $note = Note::where('book_id', $book->id)->avg('note');
 
@@ -150,7 +150,7 @@ class PlaceController extends Controller
             'status' => 'true',
             'message' => 'Voici votre lieu',
             'place' => $place,
-            'review' => $review
+            'review' => $reviews
         ]);
     }
 
