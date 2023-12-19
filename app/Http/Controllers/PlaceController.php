@@ -72,10 +72,6 @@ class PlaceController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
-                'data' => 'fail validator'
-            ]);
-            return response()->json([
-                'status' => 'false',
                 'data' => $validator->errors()
             ]);
         } else {
