@@ -34,14 +34,14 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-/*Routes Protegés par le middleware*/
+/*Routes Protegées par le middleware*/
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', [AuthController::class, 'dashboard']);
     Route::put('dashboard', [AuthController::class, 'updateUser']);
 });
 
 
-/*Routes de l'affichage dans les détails d'un lieu'*/
+/*Routes créer/afficher/détails/modifier/supprimer LIEU */
 Route::post('/place', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 Route::get('/show/{id}', [PlaceController::class, 'show']);
