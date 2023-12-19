@@ -57,6 +57,7 @@ class PlaceController extends Controller
         $fileName = time() . '.' . $request->file->extension();
         $request->file->storeAs('public/images', $fileName);
 
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
@@ -73,6 +74,7 @@ class PlaceController extends Controller
                 'city' => $request->city,
                 'description' => $request->description,
                 'file' => $fileName,
+
             ]);
 
             $select = Selected_category::create([
@@ -134,8 +136,17 @@ class PlaceController extends Controller
             'street' => 'required',
             'postcode' => 'required',
             'description' => 'required',
-            'file' => 'required'
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3000',
+
         ]);
+
+        // Gestion de l'image
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/images', $filename);
+            $place->file = $filename;
+        }
 
         // Update le lieu
         $place->title = ucwords(strtolower($request->title));
@@ -152,6 +163,18 @@ class PlaceController extends Controller
         return response()->json([
             'status' => 'true',
             'message' => 'Lieu modifié avec succès',
+            'place' => $place
+        ]);
+    }
+
+    public function destroy(Place $place, $id)
+    {
+
+        $place = Place::findOrFail($id);
+        $place->delete();
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Lieu supprimé avec succès',
             'place' => $place
         ]);
     }
