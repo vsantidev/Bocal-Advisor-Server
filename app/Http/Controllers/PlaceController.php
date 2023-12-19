@@ -31,9 +31,9 @@ class PlaceController extends Controller
     {
 
         $places = DB::table('places')
-            ->select('places.*', "selected_categories.*", "categories.id as id_categories", "categories.name_category as name_category")
-            ->leftJoin('selected_categories', 'places.id', 'selected_categories.place_id')
-            ->leftJoin('categories', 'selected_categories.category_id', 'categories.id')
+            ->select('places.*', "category_place.*", "categories.id as id_categories", "categories.name_category as name_category")
+            ->leftJoin('category_place', 'places.id', 'category_place.place_id')
+            ->leftJoin('categories', 'category_place.category_id', 'categories.id')
             ->get();
         foreach ($places as $place) {
             $place->file = asset('storage/images/' . $place->file);
