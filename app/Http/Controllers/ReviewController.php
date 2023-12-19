@@ -20,6 +20,7 @@ class ReviewController extends Controller
             "comment" => "required|string",
             "rate" => "required|integer",
             "place_id" => "required|integer",
+            "user_id" => "required|integer",
             // 'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -38,6 +39,7 @@ class ReviewController extends Controller
             'rate' => $request->rate,
             'user_id' => $request->user_id,
             'place_id' => $request->place_id,
+            'file_review' => $request->file_review
         ];
 
         Review::create($newReview);
