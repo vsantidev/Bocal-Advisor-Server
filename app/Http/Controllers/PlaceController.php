@@ -17,7 +17,8 @@ class PlaceController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index(){
+    public function index()
+    {
         $category = DB::table('categories')
             ->get();
 
@@ -48,7 +49,7 @@ class PlaceController extends Controller
 
     public function place(Request $request)
     {
-/*         if($request->title =="s"){
+        /*         if($request->title =="s"){
             return $request;
         } else {
             return 'coucouc';
@@ -84,9 +85,9 @@ class PlaceController extends Controller
                 ->where('places.street', $request->street)
                 ->get();
 
-            
-            if($verifyPlace->count() == 0){
-            
+
+            if ($verifyPlace->count() == 0) {
+
                 // Créé le lieu dans la bdd et le renvoie en format json 
                 $place = Place::create([
                     'title' => $request->title,
@@ -96,22 +97,22 @@ class PlaceController extends Controller
                     'city' => $request->city,
                     'description' => $request->description,
                     'file' => $fileName,
-/*                     'x' => $request->x,
+                    /*                     'x' => $request->x,
                     'y' => $request->y, */
-                ]); 
-                
+                ]);
+
                 $findPlace = DB::table('places')
                     ->where('places.title', $request->title)
                     ->where('places.street', $request->street)
                     ->get();
-                    
-                foreach($findPlace as $key => $element){
+
+                foreach ($findPlace as $key => $element) {
 
                     $pla = Place::find($element->id);
                     $cat = $pla->categories()->sync($request->category);
                 }
 
-                
+
                 return response()->json([
                     'status' => 'true',
                     'message' => 'Lieu créé avec succès',
@@ -124,20 +125,14 @@ class PlaceController extends Controller
                 return response()->json([
                     'status' => 'false',
                     'message' => 'existe déja',
-                    $cat,
-                    $findPlace
 
                 ]);
             }
-            
-
         }
 
         if (!$request->file('file')->isValid()) {
             return response()->json(['status' => 'false', 'message' => 'File upload failed']);
         }
-
-
     }
 
     public function show(Place $place, Int $id)
@@ -148,7 +143,7 @@ class PlaceController extends Controller
         // $reviews = Review::with('place_id')->get();
         $review = DB::table('Reviews')->where('reviews.place_id', $id)->get();
         // $place->reviews()->where('reviews.place_id', $id)->get();
- 
+
         $place->file = asset('storage/images/' . $place->file);
 
 
@@ -162,6 +157,4 @@ class PlaceController extends Controller
             'review' => $review
         ]);
     }
-
-
 }
