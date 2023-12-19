@@ -23,4 +23,30 @@ class ResetPasswordController extends Controller
             return response()->json(['message' => 'Échec de l\'envoi de l\'email'], 500);
         }
     }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|confirmed|min:3',
+            'token' => 'required',
+        ]);
+
+        // Réinitialiser le mot de passe
+        $response = Password::broker()->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => bcrypt($password),
+                    'remember_token' => \Illuminate\Support\Str::random(60),
+                ])->save();
+            }
+        );
+
+        if ($response === Password::PASSWORD_RESET) {
+            return response()->json(['message' => 'Mot de passe réinitialisé avec succès']);
+        } else {
+            return response()->json(['message' => 'Échec de la réinitialisation du mot de passe'], 500);
+        }
+    }
 }

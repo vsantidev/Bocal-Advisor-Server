@@ -33,21 +33,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-
 /*Routes Protegés par le middleware*/
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', [AuthController::class, 'dashboard']);
     Route::put('dashboard', [AuthController::class, 'updateUser']);
 });
-
-// Places
-// Route::get('/post', [PlaceController::class, 'index']);
-// Route::post('/post', [PlaceController::class, 'create']);
-// Route::post('/post/{id}', [PlaceController::class, 'show']);
-// Route::post('/post', [PlaceController::class, 'store']);
-// Route::put('/post', [PlaceController::class, 'edit']);
-// Route::post('/post', [PlaceController::class, 'update']);
-// Route::delete('/post', [PlaceController::class, 'destroy']);
 
 /*Routes de l'affichage dans les détails d'un lieu'*/
 Route::post('/place', [PlaceController::class, 'place']);
@@ -59,19 +49,17 @@ Route::get('/review', [ReviewController::class, 'renderReview']);
 
 Route::post('/show/{id}', [ReviewController::class, 'review']);
 Route::delete('/show/{id}', [ReviewController::class, 'deleteReview'])->name('review.destroy');
-//Route::post('/show/{id}', [ReviewController::class, 'review']);
-// Route::post('/review', [ReviewController::class, 'review']);
-// Route::get('/show/{id}', [PlaceController::class, 'review']);
-
-// Route::prefix('/show')->group(function () {
-//     // Route::get('/{id}', [PlaceController::class, 'show']);
-//     Route::get('/{id}', [ReviewController::class, 'review'])->name('review');
-// });
 
 // Reset Email
 Route::post('/send-reset-email', [ResetPasswordController::class, 'sendResetEmail'])->name('password.reset');
 
-// changement mot de passe
-// Route::post('/passwordChange', [PasswordChangeController::class, 'changePassword']);
+// Route for displaying the password reset link request form
+Route::get('password/reset', [ResetPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+// Reset Password
+Route::post('/password/reset/{token}/{email}', [ResetPasswordController::class, 'resetPassword'])->name('password.reset');
+
+/* // changement mot de passe
+Route::get('password/reset', [ResetPasswordController::class, 'resetPassword'])->name('password.reset'); */
 
 Route::get('/index', [PlaceController::class, 'index']);
