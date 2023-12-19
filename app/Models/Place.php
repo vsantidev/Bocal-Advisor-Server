@@ -6,12 +6,13 @@ use App\Http\Controllers\PlaceController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Place extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', 'category_id', 'file'];
+    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', /* 'category_id', */ 'file'];
 
     /*     public static function getAll()
     {
@@ -39,9 +40,9 @@ class Place extends Model
 
 
     // RELATION AVEC LA TABLE CATEGORIE
-    public function categories() : HasMany
+    public function categories() : BelongsToMany
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     // RELATION AVEC LA TABLE REVIEW

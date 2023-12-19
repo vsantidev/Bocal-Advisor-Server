@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('name_category');
             $table->timestamps();
         });
+        Schema::create('category_place', function(Blueprint $table){
+            $table->foreignIdFor(\App\Models\Category::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Place::class)->constrained()->cascadeOnDelete();
+            $table->primary(['category_id', 'place_id']);
+        });
     }
 
     /**
@@ -23,6 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('categorie_place');
         Schema::dropIfExists('categories');
     }
 };

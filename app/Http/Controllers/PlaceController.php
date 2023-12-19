@@ -17,6 +17,16 @@ class PlaceController extends Controller
      * Display a listing of the resource.
      */
 
+    public function index(){
+        $category = DB::table('categories')
+            ->get();
+
+        return response()->json([
+            $category
+        ]);
+    }
+
+
     public function renderPlace()
     {
 
@@ -38,11 +48,15 @@ class PlaceController extends Controller
 
     public function place(Request $request)
     {
-
+/*         if($request->title =="s"){
+            return $request;
+        } else {
+            return 'coucouc';
+        } */
         // Vérifie que tous les champs requis sont bien renseignés
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'category' => 'required|exists:categories,id',
+            'category' => 'required',
             'street' => 'required',
             'postcode' => 'required',
             'city' => 'required',
@@ -57,31 +71,73 @@ class PlaceController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
+                'data' => 'fail validator'
+            ]);
+            return response()->json([
+                'status' => 'false',
                 'data' => $validator->errors()
             ]);
         } else {
 
-            // Créé le lieu dans la bdd et le renvoie en format json 
-            $place = Place::create([
-                'title' => $request->title,
-                'category' => $request->category_id,
-                'street' => $request->street,
-                'postcode' => $request->postcode,
-                'city' => $request->city,
-                'description' => $request->description,
-                'file' => $fileName,
-            ]);
+            $verifyPlace = DB::table('places')
+                ->where('places.title', $request->title)
+                ->where('places.street', $request->street)
+                ->get();
 
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Lieu créé avec succès',
-                $place
-            ]);
+            
+            if($verifyPlace->count() == 0){
+            
+                // Créé le lieu dans la bdd et le renvoie en format json 
+                $place = Place::create([
+                    'title' => $request->title,
+                    'category' => $request->category_id,
+                    'street' => $request->street,
+                    'postcode' => $request->postcode,
+                    'city' => $request->city,
+                    'description' => $request->description,
+                    'file' => $fileName,
+/*                     'x' => $request->x,
+                    'y' => $request->y, */
+                ]); 
+                
+                $findPlace = DB::table('places')
+                    ->where('places.title', $request->title)
+                    ->where('places.street', $request->street)
+                    ->get();
+                    
+                foreach($findPlace as $key => $element){
+
+                    $pla = Place::find($element->id);
+                    $cat = $pla->categories()->sync($request->category);
+                }
+
+                
+                return response()->json([
+                    'status' => 'true',
+                    'message' => 'Lieu créé avec succès',
+                    $cat,
+                    $findPlace
+
+                ]);
+            } else {
+
+                return response()->json([
+                    'status' => 'false',
+                    'message' => 'existe déja',
+                    $cat,
+                    $findPlace
+
+                ]);
+            }
+            
+
         }
 
         if (!$request->file('file')->isValid()) {
             return response()->json(['status' => 'false', 'message' => 'File upload failed']);
         }
+
+
     }
 
     public function show(Place $place, Int $id)
