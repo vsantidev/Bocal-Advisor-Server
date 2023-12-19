@@ -40,19 +40,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('dashboard', [AuthController::class, 'updateUser']);
 });
 
-// Places
-// Route::get('/post', [PlaceController::class, 'index']);
-// Route::post('/post', [PlaceController::class, 'create']);
-// Route::post('/post/{id}', [PlaceController::class, 'show']);
-// Route::post('/post', [PlaceController::class, 'store']);
-// Route::put('/post', [PlaceController::class, 'edit']);
-// Route::post('/post', [PlaceController::class, 'update']);
-// Route::delete('/post', [PlaceController::class, 'destroy']);
 
 /*Routes de l'affichage dans les détails d'un lieu'*/
 Route::post('/place', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 Route::get('/show/{id}', [PlaceController::class, 'show']);
+Route::put('/edit/{id}', [PlaceController::class, 'edit']);
+Route::delete('/delete/{id}', [PlaceController::class, 'destroy']);
 
 /*Routes de la gestion des commentaires*/
 Route::get('/review', [ReviewController::class, 'renderReview']);

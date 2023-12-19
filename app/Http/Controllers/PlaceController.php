@@ -153,4 +153,16 @@ class PlaceController extends Controller
             'review' => $review
         ]);
     }
+
+    public function destroy(Place $place, $id)
+    {
+
+        $place = Place::findOrFail($id);
+        $place->delete();
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Lieu supprimé avec succès',
+            'place' => $place
+        ]);
+    }
 }

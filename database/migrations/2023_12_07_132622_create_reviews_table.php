@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('rate');
             $table->string('file_Review');
             $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Place::class)->constrained();
+            $table->foreignIdFor(Place::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
