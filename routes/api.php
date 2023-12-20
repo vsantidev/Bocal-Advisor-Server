@@ -28,31 +28,25 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-/*Routes de la gestion des incriptions et commentaires*/
+/*Routes inscription/connexion*/
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-/*Routes Protegés par le middleware*/
+/*Routes Protegées par le middleware*/
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', [AuthController::class, 'dashboard']);
     Route::put('dashboard', [AuthController::class, 'updateUser']);
 });
 
-// Places
-// Route::get('/post', [PlaceController::class, 'index']);
-// Route::post('/post', [PlaceController::class, 'create']);
-// Route::post('/post/{id}', [PlaceController::class, 'show']);
-// Route::post('/post', [PlaceController::class, 'store']);
-// Route::put('/post', [PlaceController::class, 'edit']);
-// Route::post('/post', [PlaceController::class, 'update']);
-// Route::delete('/post', [PlaceController::class, 'destroy']);
 
-/*Routes de l'affichage dans les détails d'un lieu'*/
+/*Routes créer/afficher/détails/modifier/supprimer LIEU */
 Route::post('/place', [PlaceController::class, 'place']);
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 Route::get('/show/{id}', [PlaceController::class, 'show']);
+Route::put('/edit/{id}', [PlaceController::class, 'edit']);
+Route::delete('/delete/{id}', [PlaceController::class, 'destroy']);
 
 /*Routes de la gestion des commentaires*/
 Route::get('/review', [ReviewController::class, 'renderReview']);
@@ -76,4 +70,6 @@ Route::post('/send-reset-email', [ResetPasswordController::class, 'sendResetEmai
 
 Route::get('/index', [PlaceController::class, 'index']);
 
+
 Route::put('/update', [ReviewController::class, 'update']);
+

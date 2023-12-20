@@ -18,9 +18,9 @@ return new class extends Migration
             $table->increments('id');
             $table->mediumText('comment');
             $table->integer('rate');
-            $table->string('file_Review');
+            $table->string('file_review')->nullable()->default(null);
             $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Place::class)->constrained();
+            $table->foreignIdFor(Place::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
