@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\Int_;
 
+
 use function Laravel\Prompts\error;
 
 class ReviewController extends Controller
@@ -84,4 +85,26 @@ class ReviewController extends Controller
     //     $review = DB::table('Reviews')->where('reviews.place_id', $id)->get();
     // }
 
+
+    public function update(Request $request){
+        /* return $request; */
+        $request -> validate([
+            'comment' => "required",
+            'rate' => "required",
+            'file_review' => "nullable",
+        ]);
+
+        $review = Review::findOrFail($request->review_id);
+        $review ->comment = $request -> comment;
+        $review ->rate = $request -> rate;
+        if($request -> file_review != null){
+            $review ->file_Review = $request -> file_review;
+        }
+        $review ->save();
+
+       return response()->json([
+            'status' => 'true',
+            'message' => 'commentaire modifiée',
+       ]);
+    }
 }
