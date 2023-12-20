@@ -136,31 +136,24 @@ class PlaceController extends Controller
 
     public function show(Place $place, Int $id)
     {
-        // return $id;
         // $place['category_id'] = $place->getCategory();
         $place = Place::find($id);
-
-        $places = DB::table('Reviews')->where('reviews.place_id', $id)->get();
-/*         if(count($places) != 0){
-            
-            foreach ($places as $placex) {
-                
-                $placex->file_review = asset('storage/images/' . $placex->file_review);
-                dd($placex);
-            }
-        }    */ 
-
+ 
+        $reviews = DB::table('Reviews')->where('reviews.place_id', $id)->get();
+        foreach ($reviews as $review) {
+        $review->file_review = asset('storage/images/' . $review->file_review);
+        }  
         // $place->reviews()->where('reviews.place_id', $id)->get();
+       
 
-        
         // $note = Note::where('book_id', $book->id)->avg('note');
-        
+
 
         return response()->json([
             'status' => 'true',
             'message' => 'Voici votre lieu',
             'place' => $place,
-            'review' => $places
+            'review' => $reviews
         ]);
     }
 
