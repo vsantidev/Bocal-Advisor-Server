@@ -32,7 +32,6 @@ class ResetPasswordController extends Controller
             'token' => 'required',
         ]);
 
-        // Réinitialiser le mot de passe
         $response = Password::broker()->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {

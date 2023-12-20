@@ -115,18 +115,12 @@ class PlaceController extends Controller
                 return response()->json([
                     'status' => 'true',
                     'message' => 'Lieu créé avec succès',
-                    $cat,
-                    $findPlace
-
                 ]);
             } else {
 
                 return response()->json([
                     'status' => 'false',
                     'message' => 'existe déja',
-                    $cat,
-                    $findPlace
-
                 ]);
             }
             

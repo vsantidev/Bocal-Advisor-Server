@@ -40,7 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 /*Routes de l'affichage dans les détails d'un lieu'*/
-Route::post('/place', [PlaceController::class, 'place']);
+Route::post('/place', [PlaceController::class, 'place'])->middleware('verify.token');
 Route::get('/post', [PlaceController::class, 'renderPlace']);
 Route::get('/show/{id}', [PlaceController::class, 'show']);
 
