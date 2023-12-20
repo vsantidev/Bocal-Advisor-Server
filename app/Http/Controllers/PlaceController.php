@@ -7,6 +7,7 @@ use App\Models\Selected_category;
 use App\Models\Place;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\DB;
@@ -85,6 +86,7 @@ class PlaceController extends Controller
             if ($verifyPlace->count() == 0) {
 
                 // Créé le lieu dans la bdd et le renvoie en format json 
+
                 $place = Place::create([
                     'title' => $request->title,
                     'category' => $request->category_id,
@@ -93,6 +95,7 @@ class PlaceController extends Controller
                     'city' => $request->city,
                     'description' => $request->description,
                     'file' => $fileName,
+
                     /*                     'x' => $request->x,
                     'y' => $request->y, */
                 ]);
@@ -113,7 +116,7 @@ class PlaceController extends Controller
                     'status' => 'true',
                     'message' => 'Lieu créé avec succès',
                     $cat,
-                    $findPlace
+                    $findPlace,
 
                 ]);
             } else {
@@ -135,13 +138,13 @@ class PlaceController extends Controller
     {
         // $place['category_id'] = $place->getCategory();
         $place = Place::find($id);
- 
-        $reviews = DB::table('Reviews')->where('reviews.place_id', $id)->get();
-        foreach ($reviews as $review) {
-        $review->file_review = asset('storage/images/' . $review->file_review);
-        }  
+
+        $places = DB::table('Reviews')->where('reviews.place_id', $id)->get();
+        foreach ($places as $place) {
+            $place->file_review = asset('storage/images/' . $place->file_review);
+        }
         // $place->reviews()->where('reviews.place_id', $id)->get();
-       
+
 
         // $note = Note::where('book_id', $book->id)->avg('note');
 
@@ -150,7 +153,81 @@ class PlaceController extends Controller
             'status' => 'true',
             'message' => 'Voici votre lieu',
             'place' => $place,
-            'review' => $reviews
+            'review' => $places
+        ]);
+    }
+
+    // public function edit(Request $request, $id)
+    // {
+    //     // Récupère l'ID du lieu à modifier
+    //     $place = Place::findOrFail($id);
+
+    //     // Valide la requête
+    //     $request->validate([
+    //         'title' => 'required',
+    //         'category_id' => 'required|exists:categories,id',
+    //         'city' => 'required',
+    //         'street' => 'required',
+    //         'postcode' => 'required',
+    //         'description' => 'required',
+    //         'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3000',
+
+    //     ]);
+
+    //     // Gestion de l'image
+    //     if ($request->hasFile('file')) {
+    //         $file = $request->file('file');
+    //         $filename = time() . '_' . $file->getClientOriginalName();
+    //         $file->storeAs('public/images', $filename);
+    //         $place->file = $filename;
+    //     }
+
+    //     // Update le lieu
+    //     $place->title = ucwords(strtolower($request->title));
+    //     $place->category_id = $request->category_id;
+    //     $place->city = $request->city;
+    //     $place->street = $request->street;
+    //     $place->postcode = $request->postcode;
+    //     $place->description = $request->description;
+    //     $place->file = $request->file;
+
+    //     // Sauvegarde les changements
+    //     $place->save();
+
+    //     return response()->json([
+    //         'status' => 'true',
+    //         'message' => 'Lieu modifié avec succès',
+    //         'place' => $place
+    //     ]);
+    // }
+
+    public function edit(Request $request)
+    {
+
+
+        $request->validate([
+            'title' => 'required',
+            'street' => 'required',
+            'description' => 'required',
+            'postcode' => 'required',
+            'city' => 'required',
+            // 'category' => 'required',
+            'file' => 'required'
+        ]);
+
+
+        $place = Place::findOrFail($request->id);
+        $place->title = $request->title;
+        $place->street = $request->street;
+        $place->description = $request->description;
+        $place->postcode = $request->postcode;
+        $place->city = $request->city;
+        $place->file = $request->file;
+        $place->save();
+
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Lieu modifié avec succès',
         ]);
     }
 
