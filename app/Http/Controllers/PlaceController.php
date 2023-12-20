@@ -50,11 +50,7 @@ class PlaceController extends Controller
 
     public function place(Request $request)
     {
-        /*         if($request->title =="s"){
-            return $request;
-        } else {
-            return 'coucouc';
-        } */
+
         // Vérifie que tous les champs requis sont bien renseignés
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -71,6 +67,7 @@ class PlaceController extends Controller
         $request->file->storeAs('public/images', $fileName);
 
         if ($validator->fails()) {
+
             return response()->json([
                 'status' => 'false',
                 'data' => $validator->errors()
@@ -118,12 +115,15 @@ class PlaceController extends Controller
                     $cat,
                     $findPlace,
 
+
                 ]);
             } else {
 
                 return response()->json([
                     'status' => 'false',
                     'message' => 'existe déja',
+                    $cat,
+
 
                 ]);
             }

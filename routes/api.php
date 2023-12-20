@@ -69,3 +69,7 @@ Route::post('/send-reset-email', [ResetPasswordController::class, 'sendResetEmai
 // Route::post('/passwordChange', [PasswordChangeController::class, 'changePassword']);
 
 Route::get('/index', [PlaceController::class, 'index']);
+
+
+Route::put('/update', [ReviewController::class, 'update']);
+
