@@ -122,7 +122,7 @@ class PlaceController extends Controller
                 return response()->json([
                     'status' => 'false',
                     'message' => 'existe déja',
-                    $cat,
+                    // $cat,
 
 
                 ]);
@@ -136,12 +136,13 @@ class PlaceController extends Controller
 
     public function show(Place $place, Int $id)
     {
+        // return $id;
         // $place['category_id'] = $place->getCategory();
         $place = Place::find($id);
 
         $places = DB::table('Reviews')->where('reviews.place_id', $id)->get();
-        foreach ($places as $place) {
-            $place->file_review = asset('storage/images/' . $place->file_review);
+        foreach ($places as $placex) {
+            $placex->file_review = asset('storage/images/' . $placex->file_review);
         }
         // $place->reviews()->where('reviews.place_id', $id)->get();
 
