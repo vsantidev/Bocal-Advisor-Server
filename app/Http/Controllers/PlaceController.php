@@ -141,14 +141,20 @@ class PlaceController extends Controller
         $place = Place::find($id);
 
         $places = DB::table('Reviews')->where('reviews.place_id', $id)->get();
-        foreach ($places as $placex) {
-            $placex->file_review = asset('storage/images/' . $placex->file_review);
-        }
+/*         if(count($places) != 0){
+            
+            foreach ($places as $placex) {
+                
+                $placex->file_review = asset('storage/images/' . $placex->file_review);
+                dd($placex);
+            }
+        }    */ 
+
         // $place->reviews()->where('reviews.place_id', $id)->get();
 
-
+        
         // $note = Note::where('book_id', $book->id)->avg('note');
-
+        
 
         return response()->json([
             'status' => 'true',
