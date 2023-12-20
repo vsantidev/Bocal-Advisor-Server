@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class PlaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
     public function index()
     {
         $category = DB::table('categories')
@@ -28,10 +24,8 @@ class PlaceController extends Controller
         ]);
     }
 
-
     public function renderPlace()
     {
-
         // Récupère tous les lieux enregistrés dans la bdd et les catégories associées
         $places = DB::table('places')
             ->select('places.*', "category_place.*", "categories.id as id_categories", "categories.name_category as name_category")
@@ -53,7 +47,6 @@ class PlaceController extends Controller
 
     public function place(Request $request)
     {
-
         // Vérifie que tous les champs requis sont bien renseignés puis les valide
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -133,21 +126,17 @@ class PlaceController extends Controller
     public function show(Place $place, Int $id)
     {
 
-        // $place['category_id'] = $place->getCategory();
+        // Récupère le lieu par son ID
         $place = Place::find($id);
- 
+
+        // Récupère le(s) commentaire(s) associés à l'ID du lieu
         $reviews = DB::table('Reviews')->where('reviews.place_id', $id)->get();
+        // Génère pour chaque commentaire une url de l'image associée au commentaire
         foreach ($reviews as $review) {
-        $review->file_review = asset('storage/images/' . $review->file_review);
-        }  
-
+            $review->file_review = asset('storage/images/' . $review->file_review);
+        }
         // $place->reviews()->where('reviews.place_id', $id)->get();
-       
-
-
         // $note = Note::where('book_id', $book->id)->avg('note');
-
-
         return response()->json([
             'status' => 'true',
             'place' => $place,
