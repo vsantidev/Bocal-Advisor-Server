@@ -128,7 +128,8 @@ class PlaceController extends Controller
 
         // Récupère le lieu par son ID
         $place = Place::find($id);
-
+        // Génère une url de l'image associée au lieu
+        $place->file = asset('storage/images/' . $place->file);
         // Récupère le(s) commentaire(s) associés à l'ID du lieu
         $reviews = DB::table('Reviews')->where('reviews.place_id', $id)->get();
         // Génère pour chaque commentaire une url de l'image associée au commentaire
