@@ -7,6 +7,7 @@ use App\Models\Selected_category;
 use App\Models\Place;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\DB;
@@ -69,6 +70,8 @@ class PlaceController extends Controller
         $fileName = time() . '.' . $request->file->extension();
         $request->file->storeAs('public/images', $fileName);
 
+        $user_id = Auth::id();
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
@@ -93,6 +96,7 @@ class PlaceController extends Controller
                     'city' => $request->city,
                     'description' => $request->description,
                     'file' => $fileName,
+                    'user_id' => $user_id,
                     /*                     'x' => $request->x,
                     'y' => $request->y, */
                 ]);
@@ -153,6 +157,49 @@ class PlaceController extends Controller
             'review' => $review
         ]);
     }
+
+    public function edit(Request $request, $id)
+    {
+        // Récupère l'ID du lieu à modifier
+        $place = Place::findOrFail($id);
+
+        // Valide la requête
+        $request->validate([
+            'title' => 'required',
+            'city' => 'required',
+            'street' => 'required',
+            'postcode' => 'required',
+            'description' => 'required',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3000',
+
+        ]);
+
+        // Gestion de l'image
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/images', $filename);
+            $place->file = $filename;
+        }
+
+        // Update le lieu
+        $place->title = ucwords(strtolower($request->title));
+        $place->city = $request->city;
+        $place->street = $request->street;
+        $place->postcode = $request->postcode;
+        $place->description = $request->description;
+        $place->file = $request->file;
+
+        // Sauvegarde les changements
+        $place->save();
+
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Lieu modifié avec succès',
+            'place' => $place
+        ]);
+    }
+
 
     public function destroy(Place $place, $id)
     {

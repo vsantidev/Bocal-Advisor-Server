@@ -12,7 +12,7 @@ class Place extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', /* 'category_id', */ 'file'];
+    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', 'user_id', /* 'category_id', */ 'file'];
 
     /*     public static function getAll()
     {
@@ -40,29 +40,28 @@ class Place extends Model
 
 
     // RELATION AVEC LA TABLE CATEGORIE
-    public function categories() : BelongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
 
     // RELATION AVEC LA TABLE REVIEW
-    public function reviews() : HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
-    
 
-    
+
+
     // RELATION AVEC LA TABLE PICTURE
-    public function pictures() : HasMany
+    public function pictures(): HasMany
     {
         return $this->hasMany(Picture::class);
     }
 
     // RELATION AVEC LA TABLE USERS
-    public function users() : HasMany
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
-        
 }
