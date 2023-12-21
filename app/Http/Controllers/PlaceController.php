@@ -47,7 +47,9 @@ class PlaceController extends Controller
 
     public function place(Request $request)
     {
+
         // Vérifie que tous les champs requis sont bien renseignés puis les valide
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'category' => 'required',
@@ -75,8 +77,12 @@ class PlaceController extends Controller
                 ->where('places.title', $request->title)
                 ->where('places.street', $request->street)
                 ->get();
+
             if ($verifyPlace->count() == 0) {
 
+                $user_id = Auth::id();
+
+               
                 // Créé le lieu dans la bdd et le renvoie en format json 
                 $place = Place::create([
                     'title' => $request->title,
@@ -86,12 +92,14 @@ class PlaceController extends Controller
                     'city' => $request->city,
                     'description' => $request->description,
                     'file' => $fileName,
+                    'user_id' => $user_id,
 
                     /*                     'x' => $request->x,
                     'y' => $request->y, */
                 ]);
 
                 // Sélectionne dans la bdd le lieu dont le title et la street matchent les valeurs de la requête
+
                 $findPlace = DB::table('places')
                     ->where('places.title', $request->title)
                     ->where('places.street', $request->street)
@@ -136,8 +144,7 @@ class PlaceController extends Controller
         foreach ($reviews as $review) {
             $review->file_review = asset('storage/images/' . $review->file_review);
         }
-        // $place->reviews()->where('reviews.place_id', $id)->get();
-        // $note = Note::where('book_id', $book->id)->avg('note');
+       
         return response()->json([
             'status' => 'true',
             'place' => $place,
