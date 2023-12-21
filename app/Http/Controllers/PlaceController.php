@@ -7,6 +7,7 @@ use App\Models\Selected_category;
 use App\Models\Place;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,9 @@ class PlaceController extends Controller
         } else {
             return 'coucouc';
         } */
+
+        /* return $request; */
+        /* $user = DB::table('users')->where('places.user_id', $id)->get(); */
         // Vérifie que tous les champs requis sont bien renseignés
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -81,9 +85,11 @@ class PlaceController extends Controller
                 ->where('places.street', $request->street)
                 ->get();
 
-
             if ($verifyPlace->count() == 0) {
 
+                $user_id = Auth::id();
+
+               /*  return $user; */
                 // Créé le lieu dans la bdd et le renvoie en format json 
                 $place = Place::create([
                     'title' => $request->title,
@@ -93,9 +99,11 @@ class PlaceController extends Controller
                     'city' => $request->city,
                     'description' => $request->description,
                     'file' => $fileName,
+                    'user_id' => $user_id,
                     /*                     'x' => $request->x,
                     'y' => $request->y, */
                 ]);
+
 
                 $findPlace = DB::table('places')
                     ->where('places.title', $request->title)

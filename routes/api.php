@@ -38,15 +38,18 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', [AuthController::class, 'dashboard']);
     Route::put('dashboard', [AuthController::class, 'updateUser']);
-});
 
 
 /*Routes créer/afficher/détails/modifier/supprimer LIEU */
-Route::post('/place', [PlaceController::class, 'place']);
-Route::get('/post', [PlaceController::class, 'renderPlace']);
-Route::get('/show/{id}', [PlaceController::class, 'show']);
-Route::put('/edit/{id}', [PlaceController::class, 'edit']);
-Route::delete('/delete/{id}', [PlaceController::class, 'destroy']);
+    Route::post('/place', [PlaceController::class, 'place']);
+    Route::get('/post', [PlaceController::class, 'renderPlace']);
+    Route::get('/show/{id}', [PlaceController::class, 'show']);
+    Route::put('/edit/{id}', [PlaceController::class, 'edit']);
+    Route::delete('/delete/{id}', [PlaceController::class, 'destroy']);
+});
+
+
+
 
 /*Routes de la gestion des commentaires*/
 Route::get('/review', [ReviewController::class, 'renderReview']);

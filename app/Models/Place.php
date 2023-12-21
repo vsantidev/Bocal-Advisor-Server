@@ -12,7 +12,7 @@ class Place extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', /* 'category_id', */ 'file'];
+    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', /* 'category_id', */ 'file', 'user_id'];
 
     /*     public static function getAll()
     {
