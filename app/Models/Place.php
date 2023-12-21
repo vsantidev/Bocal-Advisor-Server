@@ -12,57 +12,34 @@ class Place extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', /* 'category_id', */ 'file', 'user_id'];
 
-    /*     public static function getAll()
-    {
-        return Place::select('places.*', 'categories.name_category as category')
-            ->join('categories', 'places.category_id', '=', 'categories.id')
-            ->orderBy('name_category')
-            ->get();
-    }
- */
-    // public function Category(): HasOne
-    // {
-    //     return $this->HasOne(Category::class);
-    // }
+    protected $fillable = ['title', 'street', 'postcode', 'city', 'description', 'x', 'y', 'file', 'user_id'];
 
-    // public function getCategory()
-    // {
-    //     $category = Category::find($this->category_id);
-    //     return $category->name_category;
-    // }
-
-    // public function categories()
-    // {
-    //     return $this->belongsTo(Category::class);
-    // }
 
 
     // RELATION AVEC LA TABLE CATEGORIE
-    public function categories() : BelongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
 
     // RELATION AVEC LA TABLE REVIEW
-    public function reviews() : HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
-    
 
-    
+
+
     // RELATION AVEC LA TABLE PICTURE
-    public function pictures() : HasMany
+    public function pictures(): HasMany
     {
         return $this->hasMany(Picture::class);
     }
 
     // RELATION AVEC LA TABLE USERS
-    public function users() : HasMany
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
-        
 }

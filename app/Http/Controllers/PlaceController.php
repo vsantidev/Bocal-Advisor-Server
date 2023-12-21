@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class PlaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
     public function index()
     {
         $category = DB::table('categories')
@@ -28,15 +24,16 @@ class PlaceController extends Controller
         ]);
     }
 
-
     public function renderPlace()
     {
-
+        // Récupère tous les lieux enregistrés dans la bdd et les catégories associées
         $places = DB::table('places')
             ->select('places.*', "category_place.*", "categories.id as id_categories", "categories.name_category as name_category")
             ->leftJoin('category_place', 'places.id', 'category_place.place_id')
             ->leftJoin('categories', 'category_place.category_id', 'categories.id')
             ->get();
+
+        // Génère pour chaque lieu une url de l'image associée au lieu
         foreach ($places as $place) {
             $place->file = asset('storage/images/' . $place->file);
         }
@@ -50,15 +47,9 @@ class PlaceController extends Controller
 
     public function place(Request $request)
     {
-        /*         if($request->title =="s"){
-            return $request;
-        } else {
-            return 'coucouc';
-        } */
 
-        /* return $request; */
-        /* $user = DB::table('users')->where('places.user_id', $id)->get(); */
-        // Vérifie que tous les champs requis sont bien renseignés
+        // Vérifie que tous les champs requis sont bien renseignés puis les valide
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'category' => 'required',
@@ -74,12 +65,14 @@ class PlaceController extends Controller
         $request->file->storeAs('public/images', $fileName);
 
         if ($validator->fails()) {
+
             return response()->json([
                 'status' => 'false',
                 'data' => $validator->errors()
             ]);
         } else {
 
+            // Vérifie que le lieu n'est pas déjà existant
             $verifyPlace = DB::table('places')
                 ->where('places.title', $request->title)
                 ->where('places.street', $request->street)
@@ -89,7 +82,7 @@ class PlaceController extends Controller
 
                 $user_id = Auth::id();
 
-               /*  return $user; */
+               
                 // Créé le lieu dans la bdd et le renvoie en format json 
                 $place = Place::create([
                     'title' => $request->title,
@@ -100,72 +93,101 @@ class PlaceController extends Controller
                     'description' => $request->description,
                     'file' => $fileName,
                     'user_id' => $user_id,
+
                     /*                     'x' => $request->x,
                     'y' => $request->y, */
                 ]);
 
+                // Sélectionne dans la bdd le lieu dont le title et la street matchent les valeurs de la requête
 
                 $findPlace = DB::table('places')
                     ->where('places.title', $request->title)
                     ->where('places.street', $request->street)
                     ->get();
 
+                // Pour chaque lieu
                 foreach ($findPlace as $key => $element) {
-
+                    // Récupère le lieu grâce a son ID
                     $pla = Place::find($element->id);
+                    // Synchronise la/les catégorie(s) associées au lieu
                     $cat = $pla->categories()->sync($request->category);
                 }
-
-
                 return response()->json([
                     'status' => 'true',
                     'message' => 'Lieu créé avec succès',
                     $cat,
-                    $findPlace
-
+                    $findPlace,
                 ]);
             } else {
-
                 return response()->json([
                     'status' => 'false',
-                    'message' => 'existe déja',
-
+                    'message' => 'Ce lieu existe déja',
+                    // $cat,
                 ]);
             }
         }
-
         if (!$request->file('file')->isValid()) {
-            return response()->json(['status' => 'false', 'message' => 'File upload failed']);
+            return response()->json(['status' => 'false', 'message' => "L'image n'a pas pu être téléchargée"]);
         }
     }
 
     public function show(Place $place, Int $id)
     {
-        // $place['category_id'] = $place->getCategory();
+
+        // Récupère le lieu par son ID
         $place = Place::find($id);
- 
+        // Génère une url de l'image associée au lieu
+        $place->file = asset('storage/images/' . $place->file);
+        // Récupère le(s) commentaire(s) associés à l'ID du lieu
         $reviews = DB::table('Reviews')->where('reviews.place_id', $id)->get();
+        // Génère pour chaque commentaire une url de l'image associée au commentaire
         foreach ($reviews as $review) {
-        $review->file_review = asset('storage/images/' . $review->file_review);
-        }  
-        // $place->reviews()->where('reviews.place_id', $id)->get();
+            $review->file_review = asset('storage/images/' . $review->file_review);
+        }
        
-
-        // $note = Note::where('book_id', $book->id)->avg('note');
-
-
         return response()->json([
             'status' => 'true',
-            'message' => 'Voici votre lieu',
             'place' => $place,
             'review' => $reviews
         ]);
     }
 
+    public function edit(Request $request)
+    {
+        // Valide les données de la requête
+        $request->validate([
+            'title' => 'required',
+            'street' => 'required',
+            'description' => 'required',
+            'postcode' => 'required',
+            'city' => 'required',
+            // 'category' => 'required',
+            'file' => 'required'
+        ]);
+
+        // Récupère le lieu par son ID
+        $place = Place::findOrFail($request->id);
+        // Remplace les données existantes par celles de la requête
+        $place->title = $request->title;
+        $place->street = $request->street;
+        $place->description = $request->description;
+        $place->postcode = $request->postcode;
+        $place->city = $request->city;
+        $place->file = $request->file;
+        // Sauvegarde les changements dans la bdd
+        $place->save();
+
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Lieu modifié avec succès',
+        ]);
+    }
+
     public function destroy(Place $place, $id)
     {
-
+        // Récupère le lieu par son ID
         $place = Place::findOrFail($id);
+        // Supprime le lieu et tout ce qui lui est associé
         $place->delete();
         return response()->json([
             'status' => 'true',
