@@ -39,14 +39,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', [AuthController::class, 'dashboard']);
     Route::put('dashboard', [AuthController::class, 'updateUser']);
 
-/*Routes créer/afficher/détails/modifier/supprimer LIEU */
+    /*Routes créer/afficher/détails/modifier/supprimer LIEU */
     Route::post('/place', [PlaceController::class, 'place']);
     Route::put('/edit/{id}', [PlaceController::class, 'edit']);
-    Route::delete('/delete/{id}', [PlaceController::class, 'destroy']);
 });
-
- Route::get('/post', [PlaceController::class, 'renderPlace']);
- Route::get('/show/{id}', [PlaceController::class, 'show']);
+Route::delete('/delete/{id}', [PlaceController::class, 'destroy']);
+Route::get('/post', [PlaceController::class, 'renderPlace']);
+Route::get('/show/{id}', [PlaceController::class, 'show']);
 
 /*Routes de la gestion des commentaires*/
 Route::get('/review', [ReviewController::class, 'renderReview']);
@@ -72,4 +71,3 @@ Route::get('/index', [PlaceController::class, 'index']);
 
 
 Route::put('/update', [ReviewController::class, 'update']);
-
